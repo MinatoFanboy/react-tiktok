@@ -1,11 +1,11 @@
 .menu-item {
+    align-items: center;
+    border-radius:4px;
+    color: var(--text-color);
     display: flex;
     font-size: 1.8rem;
     font-weight: 700;
-    align-items: center;
-    padding: 8px 0;
-    border-radius: 4px;
-    color: var(--text-color);
+    padding: 8px;
     transition: background-color ease-in-out 200ms;
 
     &.active {

@@ -1,50 +1,54 @@
 .wrapper {
-    --search-border-radius: 92px;
     --search-height: 46px;
     --search-top-spacer: 9px;
     --search-button-width: 52px;
-    --search-button-color: rgba(22, 24, 35, 0.34);
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    height: var(--default-layout-header-height);
-    box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
     background-color: var(--white);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 12%);
     display: flex;
     justify-content: center;
+    height: var(--default-layout-header-height);
+    left: 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
 }
 
 .inner {
-    height: 100%;
-    width: var(--default-layout-width);
-    max-width: 100%;
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
-    padding: 0 var(--default-layout-horizontal-space);
+    height: 100%;
+    padding: 0 var(--default-layout-horizontal-spacer);
+    width: var(--default-layout-width);
 }
 
-.logo-name {
+.logo {
     display: flex;
 }
 
-/** Action */
 .actions {
-    display: flex;
     align-items: center;
+    display: flex;
+}
+
+.more-btn {
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 2rem;
+    margin-left: 28px;
+    padding: 4px 8px;
 }
 
 .action-btn {
-    display: flex;
-    position: relative;
-    font-size: 2.2rem;
-    color: #161823;
     background-color: transparent;
-    padding: 4px 12px;
+    color: #161823;
+    display: flex;
     cursor: pointer;
+    font-size: 2.4rem;
+    padding: 4px 12px;
+    position: relative;
 }
 
 .badge {
@@ -62,19 +66,11 @@
     background-color: var(--primary);
 }
 
-.more-btn {
-    font-size: 2rem;
-    margin-left: 28px;
-    background-color: transparent;
-    padding: 4px 8px;
-    cursor: pointer;
-}
-
 .user-avatar {
-    width: 3.2rem;
-    height: 3.2rem;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-left: 12px;
+    border-radius: 999px;
     cursor: pointer;
+    height: 32px;
+    margin-left: 12px;
+    object-fit: cover;
+    width: 32px;
 }

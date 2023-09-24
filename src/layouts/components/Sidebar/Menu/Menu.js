@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 function Menu({ children }) {
@@ -6,7 +5,7 @@ function Menu({ children }) {
 }
 
 Menu.propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
 };
 
 export default Menu;

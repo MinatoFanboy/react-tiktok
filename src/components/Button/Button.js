@@ -1,62 +1,52 @@
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+
 import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Button({
-    className,
-    to,
-    href,
-    primary = false,
-    outline = false,
-    rounded = false,
-    passProps,
-    small = false,
-    large = false,
-    text = false,
-    leftIcon = false,
-    rightIcon = false,
     children,
-    onClick,
+    classname,
     disabled = false,
+    href,
+    leftIcon,
+    large = false,
+    onClick,
+    outline = false,
+    primary = false,
+    rightIcon,
+    rounded = false,
+    small = false,
+    text = false,
+    to,
+    ...props
 }) {
     let Comp = 'button';
-    const props = {
-        onClick,
-        ...passProps,
-    };
+    const _props = { onClick, ...props };
 
+    if (to) {
+        _props.to = to;
+        Comp = Link;
+    } else if (href) {
+        _props.href = href;
+        Comp = 'a';
+    }
+
+    // Remove event listner when disabled
     if (disabled) {
-        Object.keys(props).forEach((key) => {
-            if (key.startsWith('on') && typeof props[key] === 'function') {
-                delete props[key];
+        Object.keys(_props).forEach((key) => {
+            if (key.startsWith('on') && typeof _props[key] === 'function') {
+                delete _props[key];
             }
         });
     }
 
-    if (to) {
-        props.to = to;
-        Comp = Link;
-    } else if (href) {
-        props.href = href;
-        Comp = 'a';
-    }
-
-    const classes = cx('wrapper', {
-        primary,
-        outline,
-        rounded,
-        small,
-        large,
-        text,
-        disabled,
-        [className]: className,
-    });
+    const classes = cx('wrapper', { [classname]: classname, disabled, large, outline, primary, rounded, small, text });
 
     return (
-        <Comp className={classes} {...props}>
+        <Comp className={classes} {..._props}>
             {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
             <span className={cx('title')}>{children}</span>
             {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}
@@ -65,20 +55,20 @@ function Button({
 }
 
 Button.propTypes = {
-    to: PropTypes.string,
-    href: PropTypes.string,
-    primary: PropTypes.bool,
-    outline: PropTypes.bool,
-    text: PropTypes.bool,
-    rounded: PropTypes.bool,
-    disabled: PropTypes.bool,
-    small: PropTypes.bool,
-    large: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    leftIcon: PropTypes.node,
-    rightIcon: PropTypes.node,
+    classname: PropTypes.string,
+    disabled: PropTypes.bool,
+    href: PropTypes.string,
+    left: PropTypes.node,
+    large: PropTypes.bool,
     onClick: PropTypes.func,
+    outline: PropTypes.bool,
+    primary: PropTypes.bool,
+    right: PropTypes.bool,
+    rounded: PropTypes.bool,
+    small: PropTypes.bool,
+    text: PropTypes.bool,
+    to: PropTypes.string,
 };
 
 export default Button;

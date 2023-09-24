@@ -1,114 +1,115 @@
-import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faEarthAsia,
-    faEllipsisVertical,
-    faCircleQuestion,
-    faKeyboard,
-    faUser,
-    faCoins,
-    faGear,
-    faSignOut,
-} from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import 'tippy.js/dist/tippy.css';
 
-import config from '~/config';
-import styles from './Header.module.scss';
-import images from '~/assets/images/';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
-import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
-import Search from '../Search';
+import Search from '~/layouts/components/Search';
+import {
+    CircleQuestionIcon,
+    InboxIcon,
+    KeyboardIcon,
+    LanguageIcon,
+    LogoutIcon,
+    MessageIcon,
+    SettingsIcon,
+    TikTokIcon,
+    UploadIcon,
+    UserIcon,
+} from '~/components/Icons';
+import images from '~/assets/images';
+import config from '~/config';
+import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
     {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        title: 'English',
+        icon: <LanguageIcon />,
         children: {
-            title: 'Language',
             data: [
                 {
                     code: 'en',
                     title: 'English',
+                    type: 'language',
                 },
                 {
                     code: 'vi',
-                    title: 'Vietnamese',
+                    title: 'Việt Nam',
+                    type: 'language',
                 },
             ],
+            title: 'Language',
         },
+        title: 'English',
     },
     {
-        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Feedback and help',
+        icon: <CircleQuestionIcon />,
+        title: 'Feedback and Help',
         to: '/feedback',
     },
     {
-        icon: <FontAwesomeIcon icon={faKeyboard} />,
-        title: 'Keyboard shortcut',
+        icon: <KeyboardIcon />,
+        title: 'Keyboard Shortcuts',
     },
 ];
 
 function Header() {
-    const userCurrent = true;
+    const currentUser = false;
 
     const userMenu = [
         {
-            icon: <FontAwesomeIcon icon={faUser} />,
-            title: 'View profile',
-            to: '/@myprofile',
+            icon: <UserIcon />,
+            title: 'View Profile',
+            to: '/@hoaa',
         },
         {
-            icon: <FontAwesomeIcon icon={faCoins} />,
-            title: 'Get coins',
-            to: '/coin',
+            icon: <TikTokIcon />,
+            title: 'Get Coin',
+            to: config.routes.coin,
         },
         {
-            icon: <FontAwesomeIcon icon={faGear} />,
+            icon: <SettingsIcon />,
             title: 'Settings',
-            to: '/Settings',
+            to: config.routes.settings,
         },
         ...MENU_ITEMS,
         {
+            icon: <LogoutIcon />,
             separate: true,
-            icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
-            to: '/logout',
+            to: config.routes.logout,
         },
     ];
-
-    const handleMenuChange = (menuItem) => {
-        console.log(menuItem);
-    };
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to={config.routes.home} className={cx('logo-name')}>
-                    <img src={images.logo} alt="Tiktok" />
+                {/* Logo */}
+                <Link className={cx('logo')} to={config.routes.home}>
+                    <img alt={'tiktok'} src={images.logo} />
                 </Link>
-
+                {/* Search */}
                 <Search />
-
+                {/* Action */}
                 <div className={cx('actions')}>
-                    {userCurrent ? (
+                    {currentUser ? (
                         <>
-                            <Tippy delay={[0, 200]} content="Upload video" placement="bottom">
+                            <Tippy content={'Upload video'} delay={[0, 80]} placement={'bottom'}>
                                 <button className={cx('action-btn')}>
                                     <UploadIcon />
                                 </button>
                             </Tippy>
-                            <Tippy delay={[0, 200]} content="Message" placement="bottom">
+                            <Tippy content={'Message'} delay={[0, 50]} placement={'bottom'}>
                                 <button className={cx('action-btn')}>
                                     <MessageIcon />
                                 </button>
                             </Tippy>
-                            <Tippy delay={[0, 200]} content="Inbox" placement="bottom">
+                            <Tippy content={'Inbox'} delay={[0, 50]} placement={'bottom'}>
                                 <button className={cx('action-btn')}>
                                     <InboxIcon />
                                     <span className={cx('badge')}>12</span>
@@ -118,16 +119,21 @@ function Header() {
                     ) : (
                         <>
                             <Button text>Upload</Button>
-                            <Button primary>Log In</Button>
+                            <Button primary>Login</Button>
                         </>
                     )}
-
-                    <Menu items={userCurrent ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
-                        {userCurrent ? (
+                    <Menu
+                        hideOnClick={false}
+                        items={currentUser ? userMenu : MENU_ITEMS}
+                        onChange={(item) => console.log('Item >>:', item)}
+                    >
+                        {currentUser ? (
                             <Image
-                                src={'https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png'}
-                                className={cx('user-avatar')}
                                 alt={'Nguyen Van A'}
+                                className={cx('user-avatar')}
+                                src={
+                                    'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/430c42e71795fd4cb0dd6c51a4d43017~c5_100x100.jpeg?x-expires=1693962000&x-signature=t%2BqvOGXLxyemgA4Jus3gF76QGKs%3D'
+                                }
                             />
                         ) : (
                             <button className={cx('more-btn')}>
